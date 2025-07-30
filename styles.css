@@ -12,16 +12,20 @@ html, body {
   overflow-x: hidden;
 }
 
+/* ===== ESTILOS BASE ===== */
+
 body {
   position: relative;
   min-height: 100vh;
   font-family: 'Arial Black', Arial, sans-serif;
   color: rgb(0, 0, 0);
-  background: rgba(0, 0, 0, 0.8); /* Fondo semitransparente encima del video */
-  z-index: 1;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 0;
+  margin: 0;
+  overflow-x: hidden; /* evitar scroll horizontal */
 }
 
-/* Estilo para el fondo del video */
+/* Video de fondo */
 #background-video {
   position: fixed;
   top: 0;
@@ -29,12 +33,69 @@ body {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  z-index: -10; /* Asegura que esté al fondo de todo */
+  z-index: -10;
   opacity: 0.3;
   pointer-events: none;
 }
 
-/* Contenedor general */
+/* Imagenes de esquinas y fondo */
+.corner-img {
+  position: fixed;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  max-height: 100vh;
+  max-width: 100vw;
+  z-index: -5; /* siempre detrás de la capa 1 y por delante de .final */
+  pointer-events: none;
+  object-fit: contain;
+  opacity: 0.4;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+  transition: opacity 0.3s ease, max-width 0.3s ease;
+}
+
+.corner-img.left {
+  left: 0;
+  max-width: 60vw;
+}
+.corner-img.right {
+  right: 0;
+  max-width: 60vw;
+}
+
+@media (max-width: 600px) {
+  .corner-img.left,
+  .corner-img.right {
+    max-width: 90vw;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.6));
+    z-index: -2; /* mantenemos -2 para que sigan por delante de .final */
+  }
+}
+
+/* Imagen final anclada al fondo */
+.final {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;       
+  height: auto;       
+  z-index: -1; /* más bajo que las corner-img para estar detrás */
+  pointer-events: none;
+  object-fit: cover;  
+  opacity: 1;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+  transition: opacity 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  .final {
+    opacity: 1;
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.6));
+  }
+}
+
+/* Contenedor principal */
 .container {
   position: relative;
   z-index: 1;
@@ -47,18 +108,40 @@ body {
   background-color: transparent;
 }
 
-/* Estilo buttton container */
+/* Botones */
 .button-container {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-top: 2rem;
-  margin-bottom: 3rem; /* separación extra del fondo */
+  margin-bottom: 3rem;
 }
 
-/* Carta mensaje */
+.btn-form {
+  font-family: 'Playfair Display', serif;
+  background-color: #800020;
+  color: white;
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  padding: clamp(0.8rem, 1vw, 1rem) clamp(2rem, 3vw, 3rem);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: box-shadow 0.3s ease;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.btn-form:hover {
+  box-shadow: 0 0 15px 5px #800020;
+  background-color: #800020;
+}
+
+/* Cartas de mensaje */
 .card-message {
-  width: 80vw;              /* Ocupa casi todo el ancho en móvil */
-  max-width: 800px;         /* Limita ancho máximo en desktop */
+  width: 90vw;
+  max-width: 800px;
   aspect-ratio: 2 / 3;
   background-size: contain;
   background-repeat: no-repeat;
@@ -72,29 +155,27 @@ body {
   box-sizing: border-box;
   position: relative;
   overflow-wrap: break-word;
-  word-wrap: break-word;
   word-break: break-word;
 }
 
 .card-message .card-text {
-  max-width: 100%;           /* Ocupa todo el ancho del contenedor */
+  max-width: 100%;
   font-size: clamp(0.9rem, 2.5vw, 1.3rem);
   line-height: 1.4;
   user-select: none;
-  padding: 0 0.5rem;         /* Pequeño padding para no pegar texto a los bordes */
+  padding: 0 0.5rem;
 }
 
 .card-message h2 {
   font-family: 'Playfair Display', serif;
   color: #800020;
-  font-size: clamp(2rem, 5vw, 3rem); /* Más grande y responsivo */
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   margin-bottom: 1rem;
   line-height: 1.2;
-  word-break: break-word;
   letter-spacing: 0.5px;
   text-align: center;
-  text-transform: capitalize; /* Opcional: primera letra en mayúscula */
+  text-transform: capitalize;
 }
 
 .card-message h2::after {
@@ -107,27 +188,21 @@ body {
   border-radius: 2px;
 }
 
-.card-message.carta1 p { 
-  color: white;
-}
-
-.card-message.carta2 p { 
-  color: #800020;
-
-}
 .card-message p {
   color: white;
   font-family: 'Playfair Display', serif;
   margin: 0;
-  word-break: break-word;    /* Texto adaptativo */
+  word-break: break-word;
 }
 
 .card-message.carta1 {
   background-image: url('img/cartaM.png');
 }
-
 .card-message.carta2 {
   background-image: url('img/cartaD.png');
+}
+.card-message.carta2 p {
+  color: #800020;
 }
 
 /* Imagen del título */
@@ -135,82 +210,20 @@ body {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto 0.5rem auto; /* reducido de 2rem a 0.5rem */
+  margin: 0 auto 0.5rem auto;
   filter: drop-shadow(0 0 15px #800020);
 }
 
-/* Botón */
-.btn-form {
-  font-family: 'Playfair Display', serif;
-  background-color: #800020;
-  color: white;
-  font-size: 1.5rem;
-  padding: 1rem 3rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: box-shadow 0.3s ease;
-  max-width: 100%;
-  display: inline-block;
-  margin-top: 0.5rem; /* reducido de 1.5rem a 0.5rem */
-  white-space: nowrap;
-}
+/* ===== MEDIA QUERIES ===== */
 
-.btn-form:hover {
-  box-shadow: 0 0 15px 5px #800020;
-  background-color: #800020;
-}
-
-/* Imágenes decorativas en esquinas inferiores, grandes y responsivas */
-.corner-img {
-  position: fixed;
-  bottom: 0;
-  width: auto;
-  height: auto;
-  max-height: 100vh;
-  z-index: -2; /* Asegura que quede bien al fondo, debajo incluso del body */
-  pointer-events: none;
-  object-fit: contain;
-  opacity: 0.4; /* Más visible, pero aún decorativa */
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)); /* Mejora visibilidad sobre fondos claros */
-}
-
-/* Lado izquierdo */
-.corner-img.left {
-  left: 0;
-  max-width: 60vw;
-}
-
-/* Lado derecho */
-.corner-img.right {
-  right: 0;
-  max-width: 60vw;
-}
-
-/* Responsivo para pantallas pequeñas */
-@media (max-width: 600px) {
-  .corner-img {
-    max-width: 80vw; /* Aumenta tamaño en móviles */
-    opacity: 0.5;
-  }
-}
-
-
-
-/* Responsive */
 @media (max-width: 1024px) {
   h1 {
-    font-size: 4.5rem;
+    font-size: clamp(3.5rem, 5vw, 4.5rem);
   }
 
   .btn-form {
-    font-size: 1.3rem;
+    font-size: clamp(1.1rem, 1.5vw, 1.3rem);
     padding: 0.9rem 2.5rem;
-  }
-
-  .map-container {
-    height: 350px;
   }
 
   .corner-img.left,
@@ -221,56 +234,61 @@ body {
 
 @media (max-width: 767px) {
   h1 {
-    font-size: 3.5rem;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
   }
 
   .btn-form {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
     padding: 0.8rem 2rem;
   }
 
-  .map-container {
-    height: 300px;
-  }
-}
-
-@media (max-width: 600px) {
   .corner-img.left,
   .corner-img.right {
-    max-width: 60vw;
-    opacity: 1; /* asegurado sin transparencia también en móviles */
+    max-width: 70vw;
   }
 }
 
 @media (max-width: 479px) {
   h1 {
-    font-size: 2.8rem;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
   }
 
   .btn-form {
     font-size: 1rem;
     padding: 0.7rem 1.5rem;
-  }
-
-  .map-container {
     width: 100%;
-    height: 250px;
-    border-width: 2px;
-    border-radius: 8px;
+    max-width: 300px;
+    margin: 0 auto;
+    white-space: normal; /* para que el texto pueda partir línea en móviles */
   }
+}
 
-  .action-section {
-    gap: 1.5rem;
-  }
+/* Contenedor principal centrado */
+.slot-machine-container {
+  width: 100%;
+  max-width: 600px;  /* limita ancho máximo */
+  margin: 0 auto;    /* centra horizontalmente */
+  padding: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Imagen título */
+.fecha-img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  display: inline-block;
 }
 
 /* Zona de carretes */
 .slot-window {
   position: relative;
-  padding: 5px 0 30px; /* Más espacio inferior */
+  padding: 5px 0 30px;
   display: flex;
   justify-content: center;
   width: 100%;
+  box-sizing: border-box;
 }
 
 /* Contenedor de los carretes */
@@ -278,7 +296,8 @@ body {
   display: flex;
   width: 100%;
   max-width: 500px;
-  margin-bottom: 40px; /* Más separación del contenido siguiente */
+  margin: 0 auto 40px;
+  gap: 5px; /* separación entre carretes */
 }
 
 /* Carrete */
@@ -288,6 +307,7 @@ body {
   overflow: hidden;
   background: #fff;
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 
 /* Animación vertical */
@@ -308,37 +328,49 @@ body {
   font-size: 2.5em;
   font-weight: bold;
   border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
-/* Responsivo: tablets */
+/* Tablets */
 @media (max-width: 768px) {
   .slot-machine {
-    max-width: 90%;
+    max-width: 100%;
+    padding: 0 10px;
   }
 
   .reel {
-    height: 90px;
+    height: 80px;
   }
 
   .numbers div {
-    height: 90px;
-    font-size: 2.2em;
+    height: 80px;
+    font-size: 2em;
   }
 }
 
-/* Responsivo: móviles */
+/* Móviles */
 @media (max-width: 480px) {
   .slot-machine {
-    margin-bottom: 60px; /* Más espacio abajo aún */
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 60px;
   }
 
   .reel {
-    height: 80px;
+    width: 100%;
+    height: 70px;
   }
 
   .numbers div {
-    height: 80px;
-    font-size: 2em; /* Aún legible pero más grande que 1em */
+    height: 70px;
+    font-size: 1.8em;
+  }
+
+  /* Ajusta el tamaño de la imagen para móviles */
+  .fecha-img {
+    max-width: 90%;
+    margin-bottom: 1rem;
   }
 }
 
@@ -423,4 +455,25 @@ body {
     .content-card h2 {
         font-size: 1.2rem;
     }
+}
+
+/* ULTIMOS DETALLES */
+
+/* Sobre */
+.sobre-container {
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  align-items: center;     /* centra verticalmente si el contenedor tiene altura */
+  padding: 1rem;           /* opcional, para que no quede pegado a bordes */
+  width: 100%;
+  max-width: 1200px;       /* limita el ancho máximo para pantallas grandes */
+  margin: 0 auto;          /* centra el contenedor en la página */
+}
+
+.sobre {
+  width: 100%;
+  max-width: 400px;        /* tamaño máximo para la imagen */
+  height: auto;            /* mantiene proporción */
+  display: block;
+  object-fit: contain;
 }
