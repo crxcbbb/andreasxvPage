@@ -304,10 +304,13 @@ body {
 .reel {
   flex: 1;
   height: 100px;
-  overflow: hidden;
+  overflow-y: scroll; /* Permitir scroll vertical */
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* Mejora en iOS */
   background: #fff;
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
+  scroll-snap-type: y mandatory; /* Snap por número */
 }
 
 /* Animación vertical */
@@ -329,6 +332,7 @@ body {
   font-weight: bold;
   border-bottom: 1px solid #ccc;
   box-sizing: border-box;
+  scroll-snap-align: start; /* Para que encaje al hacer scroll */
 }
 
 /* Tablets */
@@ -360,6 +364,9 @@ body {
   .reel {
     width: 100%;
     height: 70px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   .numbers div {
