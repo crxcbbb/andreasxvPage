@@ -112,6 +112,7 @@ body {
 .button-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
   margin-top: 2rem;
@@ -129,14 +130,16 @@ body {
   cursor: pointer;
   text-decoration: none;
   transition: box-shadow 0.3s ease;
-  max-width: 100%;
-  text-align: center;
-  display: inline-flex;
-  align-items: center;
+  display: flex;
   justify-content: center;
+  align-items: center;
   line-height: 1.2;
-  word-break: break-word;
+  text-align: center;
+  margin: 0 auto;         /* centrado horizontal */
+  width: fit-content;     /* ajusta ancho al contenido */
+  max-width: 100%;
   white-space: normal;
+  word-break: break-word;
 }
 
 .btn-form:hover {
