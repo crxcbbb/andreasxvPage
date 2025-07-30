@@ -502,15 +502,41 @@ body {
   object-fit: contain;
 }
 
-/* Estilo para el div con la hora */
+/* Estilo base con Playfair Display */
 .hora {
   font-family: 'Playfair Display', serif;
   text-align: center;
-  margin-top: 20px; /* Espacio arriba para separarlo del elemento anterior */
+  color: white; /* Texto en color blanco */
+  margin: 20px auto; /* Espaciado vertical y centrado horizontal */
+  padding: 10px;
+  width: 90%; /* Ancho adaptable */
+  max-width: 600px; /* Ancho máximo para pantallas grandes */
 }
 
 .hora h4 {
-  margin: 0; /* Elimina márgenes por defecto del h4 */
-  font-weight: normal; /* O puedes usar font-weight: 600; para más grosor */
-  font-size: 1.2em; /* Ajusta el tamaño según necesites */
+  margin: 0;
+  font-weight: 500; /* Semi-bold para mejor legibilidad */
+  font-size: clamp(1rem, 4vw, 1.5rem); /* Tamaño responsive */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Sombra para mejor contraste */
+  line-height: 1.4;
+}
+
+/* Media queries para ajustes específicos */
+@media (max-width: 768px) {
+  .hora {
+    margin: 15px auto;
+  }
+  .hora h4 {
+    font-size: 1.1rem; /* Tamaño fijo para móviles si prefieres */
+  }
+}
+
+@media (max-width: 480px) {
+  .hora {
+    width: 95%;
+    margin: 10px auto;
+  }
+  .hora h4 {
+    font-size: 1rem;
+  }
 }
