@@ -294,6 +294,7 @@ body {
 /* Contenedor de los carretes */
 .slot-machine {
   display: flex;
+  flex-direction: row;
   width: 100%;
   max-width: 500px;
   margin: 0 auto 40px;
@@ -355,14 +356,14 @@ body {
 /* Móviles */
 @media (max-width: 480px) {
   .slot-machine {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    flex-direction: row; /* Mantener en fila */
+    justify-content: center;
+    gap: 5px;
     margin-bottom: 60px;
   }
 
   .reel {
-    width: 100%;
+    width: 30%; /* Ajustar ancho relativo */
     height: 70px;
     overflow-y: scroll;
     overflow-x: hidden;
