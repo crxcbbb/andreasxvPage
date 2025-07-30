@@ -2,12 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Mis 15 años Andrea</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="ruleta.css" />
 </head>
 <body>
+    <img src="img/final.png" alt="Imagen final" class="final" />
 
     <video autoplay muted loop playsinline id="background-video">
         <source src="img/VideoFondo.mp4" type="video/mp4">
@@ -21,6 +23,7 @@
     </div>
 
     <div class="slot-machine-container">
+        <img src="img/fecha.png" class="fecha-img" alt="Titulo de fecha" />
         <div class="slot-window"> 
             <div class="slot-machine">
                 <div class="reel">
@@ -54,6 +57,10 @@
             </p>
         </div>
     </div>
+    
+    <div class="sobre-container">
+        <img src="img/sobre.png" alt="lluvia de sobres" class="sobre" />
+    </div>
 
     <div class="content-card"> 
         <img src="img/UBICACIÓN.png" alt="Ubicación del evento" class="ubicacion-heading">
@@ -78,16 +85,16 @@
         </a>
     </div>
 
-    <script>
+    <script> 
         const targetDate = {
             day: '30',
             month: '08',
             year: '25'
         };
 
-        function createNumbers(elementId, range, pad = 2) {
+        function createNumbers(elementId, start, end, pad = 2) {
             const container = document.getElementById(elementId);
-            for (let i = 0; i <= range; i++) {
+            for (let i = start; i <= end; i++) {
                 let num = i.toString().padStart(pad, '0');
                 const div = document.createElement('div');
                 div.textContent = num;
@@ -105,14 +112,16 @@
                     break;
                 }
             }
-            const offset = index * 100; // altura de cada número
-            container.style.transform = `translateY(-${offset}px)`; // cambio de Y a X
+            const itemHeight = children[0].offsetHeight;
+            const offset = index * itemHeight;
+            container.style.transform = `translateY(-${offset}px)`;
         }
 
         window.onload = () => {
-            createNumbers("numbers-day", 31);
-            createNumbers("numbers-month", 12);
-            createNumbers("numbers-year", 99);
+            // Crear números válidos
+            createNumbers("numbers-day", 1, 31);
+            createNumbers("numbers-month", 1, 12);
+            createNumbers("numbers-year", 0, 99);
 
             setTimeout(() => {
                 spinToNumber("numbers-day", targetDate.day);
